@@ -1,0 +1,1029 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="3D 배경 모델러 김윤지 포트폴리오 — 게임 에셋, 배경 모델링, 텍스처링">
+<meta name="theme-color" content="#0c0c0e">
+<meta property="og:title" content="Kim Yoonji — 3D Background Modeler">
+<meta property="og:description" content="기억 속에 머무를 또 하나의 세계를 만들어 나가는 3D 배경 모델러 김윤지입니다.">
+<meta property="og:type" content="website">
+<title>Kim Yoonji — 3D Background Modeler</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+/* ─── TOKENS ─────────────────────────────────────── */
+:root {
+  --bg-0: #0c0c0e;
+  --bg-1: #111115;
+  --bg-2: #17171d;
+  --bg-3: #1e1e27;
+  --accent:      #F8F0E5;
+  --accent-soft: rgba(248,240,229,0.60);
+  --accent-dim:  rgba(248,240,229,0.08);
+  --accent-line: rgba(248,240,229,0.13);
+  --text-hi:  #ede8e0;
+  --text-mid: #78788e;
+  --text-lo:  #3c3c50;
+  --border:    rgba(255,255,255,0.052);
+  --border-hi: rgba(248,240,229,0.13);
+  --r: 5px;
+  --fh: 'Bebas Neue', sans-serif;
+  --fb: 'Rajdhani', sans-serif;
+  --fm: 'Space Mono', monospace;
+  --max: 1060px;
+}
+
+/* ─── RESET ──────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 16px; }
+body {
+  background: var(--bg-0);
+  color: var(--text-hi);
+  font-family: var(--fb);
+  font-size: 15px;
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+img { display: block; max-width: 100%; }
+a { color: inherit; }
+button { font-family: inherit; cursor: pointer; }
+::-webkit-scrollbar { width: 3px; }
+::-webkit-scrollbar-track { background: var(--bg-0); }
+::-webkit-scrollbar-thumb { background: var(--bg-3); border-radius: 2px; }
+
+/* ─── NAV ────────────────────────────────────────── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 56px; height: 60px;
+  background: rgba(12,12,14,0.86);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.4s;
+}
+nav.sc { border-bottom-color: var(--border); }
+
+.nav-logo {
+  font-family: var(--fh);
+  font-size: 20px; letter-spacing: 3px;
+  color: var(--text-hi); text-decoration: none;
+  flex-shrink: 0;
+}
+.nav-logo em { font-style: normal; color: var(--accent-soft); }
+
+.nav-links {
+  display: flex; align-items: center; gap: 34px; list-style: none;
+}
+.nav-links a {
+  font-family: var(--fm); font-size: 11px;
+  letter-spacing: 1.5px; text-transform: uppercase;
+  color: var(--text-mid); text-decoration: none;
+  transition: color 0.25s;
+}
+.nav-links a:hover { color: var(--text-hi); }
+
+.nav-cta {
+  color: var(--accent-soft) !important;
+  border: 1px solid var(--accent-line) !important;
+  padding: 6px 17px; border-radius: var(--r);
+  transition: background 0.25s !important;
+}
+.nav-cta:hover { background: var(--accent-dim) !important; }
+
+/* hamburger */
+.nav-toggle {
+  display: none;
+  flex-direction: column; gap: 5px;
+  background: none; border: none; padding: 4px;
+}
+.nav-toggle span {
+  display: block; width: 22px; height: 1px;
+  background: var(--text-mid);
+  transition: all 0.3s;
+}
+
+/* ─── HERO ───────────────────────────────────────── */
+#hero {
+  min-height: 100vh;
+  display: flex; flex-direction: column; justify-content: center;
+  padding: 80px 56px 60px;
+  position: relative; overflow: hidden;
+}
+#hero::before {
+  content: '';
+  position: absolute; top: -10%; right: -12%;
+  width: 65vw; height: 80vh;
+  background: radial-gradient(ellipse at center, rgba(8,32,82,0.24) 0%, transparent 62%);
+  pointer-events: none;
+}
+#hero::after {
+  content: '';
+  position: absolute; bottom: 0; left: -8%;
+  width: 40vw; height: 45vh;
+  background: radial-gradient(ellipse at center, rgba(248,240,229,0.022) 0%, transparent 68%);
+  pointer-events: none;
+}
+
+.hero-content { position: relative; z-index: 1; max-width: 900px; }
+
+.hero-eyebrow {
+  font-family: var(--fm); font-size: 11px; letter-spacing: 3px;
+  text-transform: uppercase; color: var(--text-mid);
+  margin-bottom: 28px;
+  opacity: 0; animation: fu 0.9s 0.2s ease forwards;
+}
+.hero-name {
+  font-family: var(--fh);
+  font-size: clamp(58px, 9vw, 136px);
+  font-weight: 400; line-height: 0.92; letter-spacing: 2px;
+  color: var(--text-hi); margin-bottom: 6px;
+  opacity: 0; animation: fu 0.9s 0.35s ease forwards;
+}
+.hero-name .ghost {
+  display: block; color: transparent;
+  -webkit-text-stroke: 1px rgba(248,240,229,0.11);
+}
+.hero-role {
+  font-family: var(--fh);
+  font-size: clamp(15px, 2.1vw, 30px);
+  font-weight: 400; letter-spacing: 5px;
+  color: var(--accent-soft); margin-bottom: 30px;
+  opacity: 0; animation: fu 0.9s 0.5s ease forwards;
+}
+.hero-desc {
+  font-size: 15px; color: var(--text-mid);
+  max-width: 400px; line-height: 1.85; margin-bottom: 40px;
+  opacity: 0; animation: fu 0.9s 0.65s ease forwards;
+}
+.hero-tags {
+  display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 46px;
+  opacity: 0; animation: fu 0.9s 0.8s ease forwards;
+}
+.tag {
+  font-family: var(--fm); font-size: 10px; letter-spacing: 1.5px;
+  text-transform: uppercase; color: var(--text-lo);
+  border: 1px solid var(--border); padding: 5px 13px; border-radius: 100px;
+  transition: color 0.25s, border-color 0.25s;
+}
+.tag:hover { color: var(--text-mid); border-color: var(--border-hi); }
+
+.hero-actions {
+  display: flex; gap: 14px; flex-wrap: wrap;
+  opacity: 0; animation: fu 0.9s 0.95s ease forwards;
+}
+
+.btn-fill {
+  font-family: var(--fb); font-weight: 500; font-size: 13px;
+  letter-spacing: 1.5px; text-transform: uppercase;
+  color: var(--bg-0); background: var(--accent);
+  padding: 12px 32px; border: none; border-radius: var(--r);
+  cursor: pointer; text-decoration: none; display: inline-block;
+  transition: opacity 0.2s, transform 0.2s;
+}
+.btn-fill:hover { opacity: 0.88; transform: translateY(-1px); }
+
+.btn-ghost {
+  font-family: var(--fb); font-weight: 400; font-size: 13px;
+  letter-spacing: 1.5px; text-transform: uppercase;
+  color: var(--text-mid); background: transparent;
+  padding: 12px 32px; border: 1px solid var(--border); border-radius: var(--r);
+  cursor: pointer; text-decoration: none; display: inline-block;
+  transition: color 0.25s, border-color 0.25s;
+}
+.btn-ghost:hover { color: var(--text-hi); border-color: var(--border-hi); }
+
+.hero-scroll {
+  position: absolute; bottom: 44px; left: 56px;
+  display: flex; align-items: center; gap: 14px;
+  opacity: 0; animation: fi 1s 1.4s ease forwards;
+}
+.scroll-tick { width: 28px; height: 1px; background: var(--text-lo); }
+.scroll-lbl {
+  font-family: var(--fm); font-size: 10px;
+  letter-spacing: 2px; color: var(--text-lo); text-transform: uppercase;
+}
+
+/* ─── SECTION COMMON ─────────────────────────────── */
+section { padding: 108px 56px; }
+
+.sl {
+  font-family: var(--fm); font-size: 10px; letter-spacing: 3px;
+  text-transform: uppercase; color: var(--text-lo);
+  display: flex; align-items: center; gap: 14px; margin-bottom: 56px;
+}
+.sl span { color: var(--text-lo); }
+.sl::after { content: ''; width: 80px; height: 1px; background: var(--border); }
+
+/* ─── ABOUT ──────────────────────────────────────── */
+#about { background: var(--bg-1); }
+
+.about-wrap {
+  display: grid; grid-template-columns: 280px 1fr;
+  gap: 72px; max-width: var(--max); align-items: start;
+}
+.about-left { display: flex; flex-direction: column; gap: 12px; }
+
+.about-photo {
+  width: 100%; aspect-ratio: 3/4;
+  background: var(--bg-2); border: 1px solid var(--border);
+  border-radius: var(--r);
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden; position: relative;
+}
+.about-photo span {
+  font-family: var(--fm); font-size: 10px;
+  letter-spacing: 2px; color: var(--text-lo); text-transform: uppercase;
+}
+
+.alink {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 13px; background: var(--bg-2);
+  border: 1px solid var(--border); border-radius: var(--r);
+  text-decoration: none; transition: border-color 0.25s;
+}
+.alink:hover { border-color: var(--border-hi); }
+.alink svg { width: 13px; height: 13px; fill: var(--accent-soft); flex-shrink: 0; }
+.alink-name { font-size: 12px; font-weight: 500; color: var(--text-hi); }
+.alink-sub  { font-family: var(--fm); font-size: 9px; color: var(--text-lo); margin-top: 1px; }
+
+.about-heading {
+  font-family: var(--fh);
+  font-size: clamp(26px, 3.2vw, 44px); font-weight: 400;
+  letter-spacing: 2px; line-height: 1.25;
+  color: var(--text-hi); margin-bottom: 18px;
+}
+.about-heading em { font-style: normal; color: var(--accent-soft); }
+
+.about-p { font-size: 15px; color: var(--text-mid); line-height: 1.85; margin-bottom: 12px; }
+.about-p strong { color: var(--text-hi); font-weight: 500; }
+
+.career { list-style: none; margin-top: 32px; }
+.c-item {
+  display: flex; justify-content: space-between; align-items: baseline;
+  padding: 12px 0; border-bottom: 1px solid var(--border);
+}
+.c-name { font-size: 14px; font-weight: 500; color: var(--text-hi); }
+.c-role { font-size: 13px; color: var(--text-mid); margin-top: 2px; }
+.c-date { font-family: var(--fm); font-size: 10px; color: var(--text-lo); white-space: nowrap; margin-left: 16px; }
+
+/* ─── SKILLS ─────────────────────────────────────── */
+#skills { background: var(--bg-0); }
+
+.skill-grid {
+  display: grid; grid-template-columns: repeat(3,1fr);
+  gap: 2px; background: var(--border);
+  max-width: var(--max);
+  border: 1px solid var(--border); border-radius: var(--r); overflow: hidden;
+}
+.sk-col { background: var(--bg-1); padding: 30px 26px; transition: background 0.3s; }
+.sk-col:hover { background: var(--bg-2); }
+.sk-label {
+  font-family: var(--fm); font-size: 9px; letter-spacing: 2.5px;
+  text-transform: uppercase; color: var(--text-lo);
+  margin-bottom: 18px; padding-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+}
+.pills { display: flex; flex-wrap: wrap; gap: 7px; }
+.pill {
+  font-size: 13px; color: var(--text-mid);
+  background: var(--bg-0); border: 1px solid var(--border);
+  padding: 6px 14px; border-radius: 100px;
+  transition: color 0.25s, border-color 0.25s;
+}
+.pill:hover { color: var(--text-hi); border-color: var(--border-hi); }
+.pill.hi {
+  color: var(--accent-soft);
+  border-color: var(--accent-line);
+  background: var(--accent-dim);
+}
+.sk-note {
+  font-family: var(--fm); font-size: 10px;
+  letter-spacing: 1.5px; color: var(--text-lo);
+  margin-top: 18px; max-width: var(--max);
+}
+
+/* ─── EXPERIENCES ────────────────────────────────── */
+#experiences { background: var(--bg-1); }
+
+.exp-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 52px; max-width: var(--max);
+}
+.exp-lbl {
+  font-family: var(--fm); font-size: 9px; letter-spacing: 2.5px;
+  text-transform: uppercase; color: var(--text-lo);
+  margin-bottom: 18px; padding-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+}
+.exp-list { list-style: none; }
+.exp-row { display: flex; gap: 18px; padding: 11px 0; border-bottom: 1px solid var(--border); }
+.exp-date {
+  font-family: var(--fm); font-size: 10px;
+  color: var(--text-lo); white-space: nowrap;
+  padding-top: 2px; min-width: 68px; line-height: 1.5;
+  flex-shrink: 0;
+}
+.exp-info { flex: 1; font-size: 14px; color: var(--text-mid); line-height: 1.6; }
+.exp-info strong { color: var(--text-hi); font-weight: 500; }
+.chip {
+  display: inline-block;
+  font-family: var(--fm); font-size: 9px; letter-spacing: 1px;
+  color: var(--accent-soft);
+  border: 1px solid var(--accent-line);
+  padding: 1px 7px; border-radius: 3px; margin-left: 5px; vertical-align: middle;
+}
+.chip.g { color: #deb84a; border-color: rgba(222,184,74,0.22); }
+
+/* ─── PORTFOLIO ──────────────────────────────────── */
+#portfolio { background: var(--bg-0); }
+
+.filter-row { display: flex; gap: 6px; margin-bottom: 40px; flex-wrap: wrap; }
+.fb {
+  font-family: var(--fm); font-size: 10px; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--text-lo);
+  background: transparent; border: 1px solid var(--border);
+  padding: 7px 17px; border-radius: 100px;
+  cursor: pointer; transition: all 0.25s;
+}
+.fb:hover { color: var(--text-mid); border-color: var(--border-hi); }
+.fb.on {
+  color: var(--accent-soft);
+  border-color: var(--accent-line);
+  background: var(--accent-dim);
+}
+
+.work-grid { columns: 3; column-gap: 13px; }
+
+.wcard {
+  break-inside: avoid; margin-bottom: 13px;
+  border: 1px solid var(--border); border-radius: var(--r);
+  background: var(--bg-1); overflow: hidden; cursor: pointer;
+  transition: border-color 0.3s, transform 0.3s;
+}
+.wcard:hover { border-color: var(--border-hi); transform: translateY(-2px); }
+
+.wthumb {
+  width: 100%; aspect-ratio: 4/3;
+  background: var(--bg-2);
+  display: flex; align-items: center; justify-content: center;
+  position: relative; overflow: hidden;
+}
+.wcard:nth-child(2n) .wthumb { aspect-ratio: 1/1; }
+.wcard:nth-child(5n) .wthumb { aspect-ratio: 16/9; }
+.wcard:nth-child(4n) .wthumb { aspect-ratio: 3/4; }
+
+.wthumb-lbl {
+  font-family: var(--fh); font-weight: 400; font-size: 13px;
+  letter-spacing: 3px; color: var(--text-lo);
+  text-transform: uppercase; text-align: center; padding: 12px;
+}
+
+.whover {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(12,12,14,0.92) 0%, rgba(12,12,14,0.1) 55%, transparent 100%);
+  opacity: 0; transition: opacity 0.3s;
+  display: flex; flex-direction: column; justify-content: flex-end; padding: 16px;
+}
+.wcard:hover .whover { opacity: 1; }
+.whover-title {
+  font-family: var(--fh); font-size: 20px; font-weight: 400;
+  letter-spacing: 2px; color: var(--text-hi); margin-bottom: 6px; line-height: 1;
+}
+.wtags { display: flex; flex-wrap: wrap; gap: 5px; }
+.wtag {
+  font-family: var(--fm); font-size: 9px;
+  color: var(--accent-soft); background: rgba(248,240,229,0.1);
+  padding: 3px 8px; border-radius: 3px;
+}
+
+.wfoot {
+  padding: 12px 14px; border-top: 1px solid var(--border);
+  display: flex; justify-content: space-between; align-items: center;
+}
+.wfoot-title { font-size: 13px; font-weight: 500; color: var(--text-hi); }
+.wfoot-cat { font-family: var(--fm); font-size: 9px; color: var(--text-lo); text-transform: uppercase; }
+
+/* ─── MODAL ──────────────────────────────────────── */
+.mwrap {
+  position: fixed; inset: 0;
+  background: rgba(8,8,10,0.88); z-index: 300;
+  display: flex; align-items: center; justify-content: center;
+  padding: 24px;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.3s;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+.mwrap.open { opacity: 1; pointer-events: all; }
+
+.modal {
+  background: var(--bg-2); border: 1px solid var(--border);
+  border-radius: 8px;
+  width: 100%; max-width: 940px; max-height: 90vh; overflow-y: auto;
+  display: grid; grid-template-columns: 1fr 310px;
+  transform: translateY(18px); transition: transform 0.3s;
+  position: relative;
+}
+.mwrap.open .modal { transform: translateY(0); }
+
+.mvis {
+  background: var(--bg-3); aspect-ratio: 4/3;
+  display: flex; align-items: center; justify-content: center;
+  position: relative;
+}
+.mvis-ph {
+  font-family: var(--fh); font-weight: 400; font-size: 12px;
+  letter-spacing: 3px; color: var(--text-lo); text-transform: uppercase;
+}
+.mnav {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  display: flex; justify-content: space-between;
+  padding: 0 13px; width: 100%;
+}
+.mnbtn {
+  width: 32px; height: 32px;
+  background: rgba(12,12,14,0.5); border: 1px solid var(--border);
+  border-radius: var(--r); cursor: pointer;
+  color: var(--text-mid); display: flex; align-items: center; justify-content: center;
+  font-size: 13px; transition: color 0.2s, border-color 0.2s;
+}
+.mnbtn:hover { color: var(--text-hi); border-color: var(--border-hi); }
+
+.mdots {
+  position: absolute; bottom: 11px; left: 50%; transform: translateX(-50%);
+  display: flex; gap: 6px;
+}
+.mdot {
+  width: 4px; height: 4px; border-radius: 50%;
+  background: var(--text-lo); cursor: pointer; transition: all 0.2s;
+}
+.mdot.on { background: var(--accent-soft); width: 13px; border-radius: 2px; }
+
+.minfo { padding: 30px 26px; border-left: 1px solid var(--border); }
+.mcat { font-family: var(--fm); font-size: 9px; letter-spacing: 2.5px; text-transform: uppercase; color: var(--text-lo); margin-bottom: 8px; }
+.mtitle { font-family: var(--fh); font-size: 30px; font-weight: 400; letter-spacing: 2px; color: var(--text-hi); line-height: 1.1; margin-bottom: 14px; }
+.mdesc { font-size: 13px; color: var(--text-mid); line-height: 1.8; margin-bottom: 22px; }
+.mrow { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--border); }
+.mk { font-family: var(--fm); font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-lo); align-self: center; }
+.mv { font-size: 13px; font-weight: 500; color: var(--text-hi); }
+.mtlbl { font-family: var(--fm); font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--text-lo); margin: 18px 0 9px; }
+.mtools { display: flex; flex-wrap: wrap; gap: 7px; }
+.mtool { font-size: 12px; color: var(--text-mid); background: var(--bg-1); border: 1px solid var(--border); padding: 5px 12px; border-radius: 100px; }
+
+.mx {
+  position: absolute; top: 13px; right: 13px;
+  width: 28px; height: 28px;
+  background: transparent; border: 1px solid var(--border);
+  border-radius: var(--r); cursor: pointer;
+  color: var(--text-lo); font-size: 14px;
+  display: flex; align-items: center; justify-content: center;
+  transition: color 0.2s, border-color 0.2s; z-index: 2;
+}
+.mx:hover { color: var(--text-hi); border-color: var(--border-hi); }
+
+/* ─── CONTACT ────────────────────────────────────── */
+#contact { background: var(--bg-1); }
+
+.ct-body { max-width: 680px; }
+.ct-sub { font-size: 15px; color: var(--text-mid); line-height: 1.85; margin-bottom: 48px; }
+
+.ct-form { display: grid; grid-template-columns: 1fr 1fr; gap: 13px; margin-bottom: 13px; }
+.fg { display: flex; flex-direction: column; gap: 7px; }
+.fg.full { grid-column: 1 / -1; }
+.fg label {
+  font-family: var(--fm); font-size: 9px; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--text-lo);
+}
+.fg input, .fg textarea {
+  font-family: var(--fb); font-size: 14px;
+  color: var(--text-hi); background: var(--bg-2);
+  border: 1px solid var(--border); border-radius: var(--r);
+  padding: 11px 14px; outline: none;
+  transition: border-color 0.25s; resize: none;
+  -webkit-appearance: none;
+}
+.fg input::placeholder, .fg textarea::placeholder { color: var(--text-lo); }
+.fg input:focus, .fg textarea:focus { border-color: var(--border-hi); }
+.fg textarea { height: 116px; }
+
+.form-status {
+  font-family: var(--fm); font-size: 11px; letter-spacing: 1px;
+  color: var(--text-mid); margin-top: 8px;
+  min-height: 20px; transition: color 0.3s;
+}
+.form-status.ok { color: #7bbf7b; }
+.form-status.err { color: #bf7b7b; }
+
+.ct-links {
+  display: flex; gap: 8px; margin-top: 44px; flex-wrap: wrap;
+}
+.slink {
+  font-family: var(--fm); font-size: 10px;
+  letter-spacing: 1.5px; text-transform: uppercase;
+  color: var(--text-lo); text-decoration: none;
+  display: flex; align-items: center; gap: 7px;
+  padding: 8px 15px; border: 1px solid var(--border); border-radius: 100px;
+  transition: color 0.25s, border-color 0.25s;
+}
+.slink:hover { color: var(--text-hi); border-color: var(--border-hi); }
+.slink svg { width: 11px; height: 11px; fill: currentColor; }
+
+/* ─── FOOTER ─────────────────────────────────────── */
+footer {
+  background: var(--bg-0);
+  border-top: 1px solid var(--border);
+  padding: 22px 56px;
+  display: flex; justify-content: space-between; align-items: center;
+  flex-wrap: wrap; gap: 12px;
+}
+.fcopy { font-family: var(--fm); font-size: 10px; letter-spacing: 1.5px; color: var(--text-lo); text-transform: uppercase; }
+.fcopy em { font-style: normal; color: var(--accent-soft); }
+.fnav { display: flex; gap: 22px; list-style: none; }
+.fnav a { font-family: var(--fm); font-size: 10px; letter-spacing: 1.5px; color: var(--text-lo); text-decoration: none; text-transform: uppercase; transition: color 0.25s; }
+.fnav a:hover { color: var(--text-hi); }
+
+/* ─── REVEAL ANIMATION ───────────────────────────── */
+.reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.75s ease, transform 0.75s ease; }
+.reveal.vis { opacity: 1; transform: translateY(0); }
+
+@keyframes fu { from { opacity:0; transform:translateY(22px); } to { opacity:1; transform:translateY(0); } }
+@keyframes fi  { from { opacity:0; } to { opacity:1; } }
+
+/* ─── MOBILE MENU ────────────────────────────────── */
+.mobile-menu {
+  display: none;
+  position: fixed; top: 60px; left: 0; right: 0; z-index: 190;
+  background: rgba(12,12,14,0.97);
+  backdrop-filter: blur(24px);
+  border-bottom: 1px solid var(--border);
+  padding: 20px 24px 24px;
+  flex-direction: column; gap: 0;
+}
+.mobile-menu.open { display: flex; }
+.mobile-menu a {
+  font-family: var(--fm); font-size: 12px; letter-spacing: 2px;
+  text-transform: uppercase; color: var(--text-mid);
+  text-decoration: none; padding: 14px 0;
+  border-bottom: 1px solid var(--border);
+  transition: color 0.25s;
+}
+.mobile-menu a:last-child { border-bottom: none; }
+.mobile-menu a:hover { color: var(--text-hi); }
+
+/* ─── RESPONSIVE ─────────────────────────────────── */
+@media (max-width: 900px) {
+  nav { padding: 0 24px; }
+  .nav-links { display: none; }
+  .nav-toggle { display: flex; }
+
+  #hero { padding: 80px 24px 56px; }
+  .hero-scroll { left: 24px; }
+  section { padding: 80px 24px; }
+  footer { padding: 20px 24px; }
+
+  .about-wrap { grid-template-columns: 1fr; gap: 40px; }
+  .about-left { flex-direction: row; flex-wrap: wrap; gap: 12px; }
+  .about-photo { width: 140px; flex-shrink: 0; aspect-ratio: 1/1; }
+  .alink { flex: 1; min-width: 180px; }
+
+  .skill-grid { grid-template-columns: 1fr; }
+
+  .exp-grid { grid-template-columns: 1fr; gap: 40px; }
+
+  .work-grid { columns: 2; }
+
+  .modal { grid-template-columns: 1fr; }
+  .minfo { border-left: none; border-top: 1px solid var(--border); }
+  .mvis { aspect-ratio: 16/9; }
+
+  .ct-form { grid-template-columns: 1fr; }
+  .fg.full { grid-column: 1; }
+}
+
+@media (max-width: 560px) {
+  .hero-name { font-size: clamp(52px, 14vw, 100px); }
+  .work-grid { columns: 1; }
+  .hero-actions { flex-direction: column; }
+  .btn-fill, .btn-ghost { text-align: center; }
+  .mwrap { padding: 12px; }
+  .modal { max-height: 95vh; }
+}
+</style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav id="nav">
+  <a href="#hero" class="nav-logo">Kim <em>Yoonji</em></a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#experiences">Experience</a></li>
+    <li><a href="#portfolio">Work</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="https://papapapaya.tistory.com/" target="_blank" rel="noopener" class="nav-cta">Blog</a></li>
+  </ul>
+  <button class="nav-toggle" id="navToggle" aria-label="메뉴 열기">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- ── MOBILE MENU ── -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#about" class="mm-link">About</a>
+  <a href="#skills" class="mm-link">Skills</a>
+  <a href="#experiences" class="mm-link">Experience</a>
+  <a href="#portfolio" class="mm-link">Work</a>
+  <a href="#contact" class="mm-link">Contact</a>
+  <a href="https://papapapaya.tistory.com/" target="_blank" rel="noopener" class="mm-link">Blog ↗</a>
+</div>
+
+<!-- ── HERO ── -->
+<section id="hero">
+  <div class="hero-content">
+    <p class="hero-eyebrow">3D Background Modeler &nbsp;·&nbsp; Environment Artist</p>
+    <h1 class="hero-name">Kim<br><span class="ghost">Yoonji</span></h1>
+    <p class="hero-role">기억 속에 머무를 세계를 만드는</p>
+    <p class="hero-desc">배경 모델링과 텍스처링을 중심으로<br>플레이어를 위한 에셋을 고민하는<br>실전형 3D 모델러입니다.</p>
+    <div class="hero-tags">
+      <span class="tag">3ds Max</span>
+      <span class="tag">Substance Painter</span>
+      <span class="tag">3D Coat</span>
+      <span class="tag">ZBrush</span>
+      <span class="tag">Unreal Engine 5</span>
+      <span class="tag">Unity</span>
+    </div>
+    <div class="hero-actions">
+      <a href="#portfolio" class="btn-fill">View Work</a>
+      <a href="#contact" class="btn-ghost">Get in Touch</a>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <div class="scroll-tick"></div>
+    <span class="scroll-lbl">Scroll</span>
+  </div>
+</section>
+
+<!-- ── ABOUT ── -->
+<section id="about">
+  <div class="sl reveal"><span>01</span>&nbsp;&nbsp;About</div>
+  <div class="about-wrap">
+    <div class="about-left reveal">
+      <div class="about-photo"><span>Profile Photo</span></div>
+      <a href="https://papapapaya.tistory.com/" target="_blank" rel="noopener" class="alink">
+        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+        <div><div class="alink-name">Tistory Blog</div><div class="alink-sub">작은 파파야의 작업 공간</div></div>
+      </a>
+      <a href="https://www.youtube.com/@ryeong21" target="_blank" rel="noopener" class="alink">
+        <svg viewBox="0 0 24 24"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58zM9.75 15.02V8.98L15.5 12l-5.75 3.02z"/></svg>
+        <div><div class="alink-name">YouTube</div><div class="alink-sub">이일 — 작업 기록 채널</div></div>
+      </a>
+    </div>
+    <div class="reveal">
+      <h2 class="about-heading">기억 속에 머무를<br><em>또 하나의 세계</em>를<br>만들어 나가는</h2>
+      <p class="about-p">경기게임마이스터고등학교에서 3D 아트를 전공하며 배경 모델링과 텍스처링에 집중해왔습니다. 단순히 아름다운 에셋을 넘어 <strong>플레이어를 위한 에셋</strong>을 고민하는 모델러로 성장하고 있습니다.</p>
+      <p class="about-p">아틀라스 텍스쳐로 드로우콜을 줄이고 게임 최적화를 고려하는 실무형 작업 방식을 지향합니다. 2학년 2학기 전공 100점, 전공 성적 1등을 달성했습니다.</p>
+      <ul class="career">
+        <li class="c-item">
+          <div>
+            <div class="c-name">경기게임마이스터고등학교</div>
+            <div class="c-role">게임 아트 전공 · 3D 모델링</div>
+          </div>
+          <span class="c-date">2024.03 — 2027.01</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ── SKILLS ── -->
+<section id="skills">
+  <div class="sl reveal"><span>02</span>&nbsp;&nbsp;Skills</div>
+  <div class="skill-grid reveal">
+    <div class="sk-col">
+      <div class="sk-label">3D Programs</div>
+      <div class="pills">
+        <span class="pill hi">3ds Max</span>
+        <span class="pill hi">Substance 3D Painter</span>
+        <span class="pill hi">3D Coat</span>
+        <span class="pill">RizomUV</span>
+        <span class="pill">ZBrush</span>
+        <span class="pill">Substance 3D Designer</span>
+        <span class="pill">Blender</span>
+      </div>
+    </div>
+    <div class="sk-col">
+      <div class="sk-label">2D Programs</div>
+      <div class="pills">
+        <span class="pill hi">Photoshop</span>
+        <span class="pill">Aseprite</span>
+      </div>
+    </div>
+    <div class="sk-col">
+      <div class="sk-label">ETC</div>
+      <div class="pills">
+        <span class="pill hi">Notion</span>
+        <span class="pill">Unity</span>
+        <span class="pill">Unreal Engine</span>
+        <span class="pill hi" style="font-size:11px;">GTQ 1급</span>
+      </div>
+    </div>
+  </div>
+  <p class="sk-note reveal">밝은 표시 = 상 &nbsp;·&nbsp; 기본 = 중 &nbsp;(능숙도 기준)</p>
+</section>
+
+<!-- ── EXPERIENCES ── -->
+<section id="experiences">
+  <div class="sl reveal"><span>03</span>&nbsp;&nbsp;Experiences</div>
+  <div class="exp-grid">
+    <div class="reveal">
+      <div class="exp-lbl">Awards</div>
+      <ul class="exp-list">
+        <li class="exp-row"><span class="exp-date">2024.05</span><span class="exp-info">전공 동아리 [히카리] <span class="chip">3등</span></span></li>
+        <li class="exp-row"><span class="exp-date">2024.10</span><span class="exp-info">전공 동아리 [히카리] <span class="chip">2등</span></span></li>
+        <li class="exp-row"><span class="exp-date">2024.12</span><span class="exp-info">학업 계획서 대회 <span class="chip">장려상</span></span></li>
+        <li class="exp-row"><span class="exp-date">2025.04</span><span class="exp-info">전공 동아리 [금손길] <span class="chip">3등</span></span></li>
+        <li class="exp-row"><span class="exp-date">2025.10</span><span class="exp-info"><strong>포트폴리오 경진 대회</strong> <span class="chip g">최우수상</span></span></li>
+        <li class="exp-row"><span class="exp-date">2025.11</span><span class="exp-info"><strong>엔진 팀 프로젝트</strong> <span class="chip g">우수작 2등</span></span></li>
+        <li class="exp-row"><span class="exp-date">2025.12</span><span class="exp-info">2학년 2학기 표창장 <span class="chip g">혁신 부문</span></span></li>
+      </ul>
+    </div>
+    <div class="reveal">
+      <div class="exp-lbl">Activities</div>
+      <ul class="exp-list">
+        <li class="exp-row"><span class="exp-date">2024.03~10</span><span class="exp-info">개발 전공 동아리 <strong>[히카리]</strong></span></li>
+        <li class="exp-row"><span class="exp-date">2024.10~<br>2025.09</span><span class="exp-info">3D 아트 전공 동아리 <strong>[금손길]</strong></span></li>
+        <li class="exp-row"><span class="exp-date">2024.08~<br>2026.07</span><span class="exp-info">기숙사 자치회 <strong>[학습관리부장]</strong></span></li>
+        <li class="exp-row"><span class="exp-date">2024.03~<br>2026.01</span><span class="exp-info">교내 방송부 <strong>[엔지니어]</strong></span></li>
+        <li class="exp-row"><span class="exp-date">2024.07</span><span class="exp-info">하계 게임잼 [세현이와 똘똘이 5총사] — 2D 아트</span></li>
+        <li class="exp-row"><span class="exp-date">2024.10</span><span class="exp-info">판교 스마일게이트 게임잼 [엄슬리스] — 2D 아트</span></li>
+        <li class="exp-row"><span class="exp-date">2025.02</span><span class="exp-info">교내 동계 특강 <strong>[파티클 이펙트]</strong></span></li>
+        <li class="exp-row"><span class="exp-date">2025.09</span><span class="exp-info"><strong>GTQ 1급</strong> 취득</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ── PORTFOLIO ── -->
+<section id="portfolio">
+  <div class="sl reveal"><span>04</span>&nbsp;&nbsp;Work</div>
+  <div class="filter-row reveal" id="frow">
+    <button class="fb on" data-f="all">All</button>
+    <button class="fb" data-f="background">Background</button>
+    <button class="fb" data-f="props">Props</button>
+    <button class="fb" data-f="team">Team Project</button>
+  </div>
+  <div class="work-grid reveal" id="wgrid"></div>
+</section>
+
+<!-- ── MODAL ── -->
+<div class="mwrap" id="mwrap" role="dialog" aria-modal="true" aria-label="작품 상세보기">
+  <div class="modal">
+    <div style="position:relative;">
+      <div class="mvis">
+        <span class="mvis-ph">Artwork Preview</span>
+        <div class="mnav">
+          <button class="mnbtn" id="mprev" aria-label="이전">&#8592;</button>
+          <button class="mnbtn" id="mnext" aria-label="다음">&#8594;</button>
+        </div>
+        <div class="mdots" id="mdots"></div>
+      </div>
+    </div>
+    <div class="minfo">
+      <div class="mcat" id="mcat"></div>
+      <div class="mtitle" id="mtitle"></div>
+      <div class="mdesc" id="mdesc"></div>
+      <div id="mdetails"></div>
+      <div class="mtlbl">Tools Used</div>
+      <div class="mtools" id="mtools"></div>
+    </div>
+  </div>
+  <button class="mx" id="mclose" aria-label="닫기">&#215;</button>
+</div>
+
+<!-- ── CONTACT ── -->
+<section id="contact">
+  <div class="sl reveal"><span>05</span>&nbsp;&nbsp;Contact</div>
+  <div class="ct-body">
+    <p class="ct-sub reveal">새로운 프로젝트나 협업 기회에 언제든 열려 있습니다.<br>편하게 연락해 주세요.</p>
+    <form class="ct-form reveal" id="ctForm" novalidate>
+      <div class="fg">
+        <label for="fname">Name</label>
+        <input type="text" id="fname" name="name" placeholder="Your name" required autocomplete="name">
+      </div>
+      <div class="fg">
+        <label for="femail">Email</label>
+        <input type="email" id="femail" name="email" placeholder="your@email.com" required autocomplete="email">
+      </div>
+      <div class="fg full">
+        <label for="fmsg">Message</label>
+        <textarea id="fmsg" name="message" placeholder="프로젝트나 협업에 대해 알려주세요..." required></textarea>
+      </div>
+      <div class="fg full">
+        <button type="submit" class="btn-fill" style="align-self:flex-start; border:none;">Send Message</button>
+        <p class="form-status" id="formStatus"></p>
+      </div>
+    </form>
+    <div class="ct-links reveal">
+      <a href="mailto:yoonji2117@gmail.com" class="slink">
+        <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        Gmail
+      </a>
+      <a href="https://papapapaya.tistory.com/" target="_blank" rel="noopener" class="slink">
+        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+        Blog
+      </a>
+      <a href="https://www.youtube.com/@ryeong21" target="_blank" rel="noopener" class="slink">
+        <svg viewBox="0 0 24 24"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58zM9.75 15.02V8.98L15.5 12l-5.75 3.02z"/></svg>
+        YouTube
+      </a>
+      <a href="tel:01075294335" class="slink">
+        <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.62 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.07 6.07l.91-.91a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        010-7529-4335
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <p class="fcopy">&copy; 2025 <em>Kim Yoonji</em>. All rights reserved.</p>
+  <ul class="fnav">
+    <li><a href="#hero">Top</a></li>
+    <li><a href="#portfolio">Work</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</footer>
+
+<script>
+/* ── DATA ── */
+const WORKS = [
+  { id:1, title:"엔진 팀 프로젝트", cat:"team",
+    tools:["3ds Max","Substance Painter","Unity"],
+    desc:"2학년 2학기 팀 프로젝트. 메인 아트 담당으로 게임 내 모든 3D 모델링·텍스처링 제작. 아틀라스 텍스쳐 최적화로 드로우콜 감소 — 우수작 2등 수상.",
+    period:"2025.09 — 2025.12", scale:"최적화 중점", slides:4 },
+  { id:2, title:"배경 환경 세트", cat:"background",
+    tools:["3ds Max","Substance 3D Painter","RizomUV"],
+    desc:"게임 배경 환경 모듈형 에셋 세트. 손맵 텍스처링과 PBR 워크플로우 집중 연구.",
+    period:"2025", scale:"모듈형 설계", slides:3 },
+  { id:3, title:"소품 에셋 컬렉션", cat:"props",
+    tools:["3ds Max","3D Coat","Photoshop"],
+    desc:"3D Coat 핸드페인트 텍스처링 활용 소품 에셋. 메시 페인팅 기법 집중 연구.",
+    period:"2024 — 2025", scale:"저폴리 최적화", slides:5 },
+  { id:4, title:"판교 게임잼 아트", cat:"team",
+    tools:["Photoshop","Aseprite"],
+    desc:"판교 스마일게이트 게임잼 [엄슬리스] 2D 아트 담당. 단기 제작 환경에서의 빠른 에셋 파이프라인 경험.",
+    period:"2024.10", scale:"2D 픽셀아트", slides:3 },
+  { id:5, title:"공간 배경 모델링", cat:"background",
+    tools:["3ds Max","Substance 3D Painter","Unreal Engine"],
+    desc:"겨울방학 집중 개인 작업. 공간감 있는 게임 배경 씬 구성 연구. 하루 8시간 작업 일지 기록.",
+    period:"2025.01", scale:"UE5 연동", slides:4 },
+  { id:6, title:"졸업 작품", cat:"background",
+    tools:["3ds Max","3D Coat","Substance Painter","Unity"],
+    desc:"3D 배경 졸업 작품 제작. 엔진 적용 시 축 차이 문제를 스크립트로 직접 해결한 트러블슈팅 경험 포함.",
+    period:"2026 — 2027", scale:"풀 파이프라인", slides:5 },
+];
+
+/* ── PORTFOLIO GRID ── */
+let curFilter = 'all', curWork = null, curSlide = 0;
+
+function buildGrid(ft) {
+  const g = document.getElementById('wgrid');
+  const list = ft === 'all' ? WORKS : WORKS.filter(w => w.cat === ft);
+  g.innerHTML = list.map(w => `
+    <div class="wcard" onclick="openModal(${w.id})" role="button" tabindex="0"
+         onkeydown="if(event.key==='Enter')openModal(${w.id})">
+      <div class="wthumb">
+        <span class="wthumb-lbl">${w.title}</span>
+        <div class="whover">
+          <div class="whover-title">${w.title}</div>
+          <div class="wtags">${w.tools.slice(0,3).map(t=>`<span class="wtag">${t}</span>`).join('')}</div>
+        </div>
+      </div>
+      <div class="wfoot">
+        <span class="wfoot-title">${w.title}</span>
+        <span class="wfoot-cat">${w.cat}</span>
+      </div>
+    </div>`).join('');
+}
+
+document.getElementById('frow').addEventListener('click', e => {
+  const b = e.target.closest('.fb');
+  if (!b) return;
+  document.querySelectorAll('.fb').forEach(x => x.classList.remove('on'));
+  b.classList.add('on');
+  curFilter = b.dataset.f;
+  buildGrid(curFilter);
+  obs();
+});
+
+/* ── MODAL ── */
+function openModal(id) {
+  curWork = WORKS.find(x => x.id === id);
+  curSlide = 0;
+  document.getElementById('mcat').textContent   = curWork.cat.toUpperCase();
+  document.getElementById('mtitle').textContent = curWork.title;
+  document.getElementById('mdesc').textContent  = curWork.desc;
+  document.getElementById('mdetails').innerHTML =
+    `<div class="mrow"><span class="mk">Period</span><span class="mv">${curWork.period}</span></div>
+     <div class="mrow"><span class="mk">Scale</span><span class="mv">${curWork.scale}</span></div>`;
+  document.getElementById('mtools').innerHTML =
+    curWork.tools.map(t => `<span class="mtool">${t}</span>`).join('');
+  document.getElementById('mdots').innerHTML =
+    Array.from({length: curWork.slides}, (_, i) =>
+      `<div class="mdot${i===0?' on':''}" onclick="goSlide(${i})"></div>`).join('');
+  document.getElementById('mwrap').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function goSlide(i) {
+  if (!curWork) return;
+  curSlide = (i + curWork.slides) % curWork.slides;
+  document.querySelectorAll('.mdot').forEach((d, idx) => d.classList.toggle('on', idx === curSlide));
+}
+
+function closeModal() {
+  document.getElementById('mwrap').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+document.getElementById('mprev').addEventListener('click', () => goSlide(curSlide - 1));
+document.getElementById('mnext').addEventListener('click', () => goSlide(curSlide + 1));
+document.getElementById('mclose').addEventListener('click', closeModal);
+document.getElementById('mwrap').addEventListener('click', e => {
+  if (e.target === document.getElementById('mwrap')) closeModal();
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeModal();
+  if (e.key === 'ArrowLeft')  goSlide(curSlide - 1);
+  if (e.key === 'ArrowRight') goSlide(curSlide + 1);
+});
+
+/* ── NAV SCROLL & MOBILE ── */
+const navEl = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  navEl.classList.toggle('sc', window.scrollY > 50);
+});
+
+const toggle = document.getElementById('navToggle');
+const menu   = document.getElementById('mobileMenu');
+toggle.addEventListener('click', () => {
+  const open = menu.classList.toggle('open');
+  toggle.setAttribute('aria-expanded', open);
+});
+document.querySelectorAll('.mm-link').forEach(a => {
+  a.addEventListener('click', () => menu.classList.remove('open'));
+});
+
+/* ── SCROLL REVEAL ── */
+function obs() {
+  const io = new IntersectionObserver(entries => {
+    entries.forEach((en, i) => {
+      if (en.isIntersecting) {
+        setTimeout(() => en.target.classList.add('vis'), i * 70);
+        io.unobserve(en.target);
+      }
+    });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.reveal:not(.vis)').forEach(el => io.observe(el));
+}
+
+/* ── CONTACT FORM ── */
+document.getElementById('ctForm').addEventListener('submit', e => {
+  e.preventDefault();
+  const form   = e.target;
+  const status = document.getElementById('formStatus');
+  const name    = form.name.value.trim();
+  const email   = form.email.value.trim();
+  const message = form.message.value.trim();
+
+  if (!name || !email || !message) {
+    status.textContent = '모든 항목을 입력해 주세요.';
+    status.className = 'form-status err';
+    return;
+  }
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    status.textContent = '올바른 이메일 주소를 입력해 주세요.';
+    status.className = 'form-status err';
+    return;
+  }
+
+  /* mailto fallback — 실제 배포 시 Formspree / EmailJS 등으로 교체 */
+  const subject = encodeURIComponent(`포트폴리오 문의 — ${name}`);
+  const body    = encodeURIComponent(`이름: ${name}\n이메일: ${email}\n\n${message}`);
+  window.location.href = `mailto:yoonji2117@gmail.com?subject=${subject}&body=${body}`;
+
+  status.textContent = '메일 앱이 열립니다. 감사합니다!';
+  status.className = 'form-status ok';
+  form.reset();
+});
+
+/* ── INIT ── */
+buildGrid('all');
+obs();
+</script>
+</body>
+</html>
